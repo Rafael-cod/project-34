@@ -1,10 +1,10 @@
 //Create variables here
-var dog, happyDog, database, foodS, foodStock;
+var dog, dogImg, happyDog, database, foodS, foodStock;
 
 function preload()
 {
   //load images here
-  dog = loadImage("images/dogImg.png");
+  dogImg = loadImage("images/dogImg.png");
   happyDog = loadImage("images/dogImg1.png");
 
 }
@@ -13,6 +13,10 @@ function setup() {
   database = firebase.database();
 	createCanvas(500, 500);
   
+  dog = createSprite(250,300,150,150);
+  dog.addImage(dogImg)
+  dog.scale = 0.15
+
   foodStock = database.ref('Food');
   foodStock.on("value",readStock)
 
@@ -22,15 +26,19 @@ function setup() {
 function draw() {  
   background(46,139,87);
 
-  image(dog,175,175,150,150);
-
-  drawSprites();
   //add styles here
 
   if(keyWentDown(UP_ARROW)){
-    //writeStock(foodS);
-    image(happyDog,175,175,150,150)
+    writeStock(foodS);
+    dog.addImage(happyDog)
   }
+
+  drawSprites();
+  fill(255);
+  textSize(20);
+  text("Food remaining: "+foodS, 170, 200);
+  textSize(20);
+  text("Note: Press up arrow key to feed the dog a milk!",120,10,300,20);
 
 }
 
